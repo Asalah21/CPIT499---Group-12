@@ -298,6 +298,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 }
 
+
 /**
  * DetectionResult
  *      A class to store the visualization info of a detected object.
