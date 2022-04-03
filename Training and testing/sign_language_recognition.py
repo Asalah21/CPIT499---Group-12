@@ -53,6 +53,22 @@ for i in tqdm(range(len(files))):
 image_array=np.array(image_array)
 label_array=np.array(label_array,dtype="float")
 
+
+
+
+        #  new ( Talal's testing )
+private EditText write;
+ttobj=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+   @Override
+   public void onInit(int status) var = {
+}
+});
+
+
+
+
+
+
 # split the dataset into test and train
 
 from sklearn.model_selection import train_test_split
