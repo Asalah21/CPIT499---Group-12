@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HANDY</string>
+
+    <string name="headline1">What is HANDY ?</string>
+    <string name="headline2">I would love to know how to use it!</string>
+    <string name="description1">HANDY is an application that will help and improve the communication between people with hearing issues like deafness or lack of hearing</string>
+    <string name="description2">Just aim the camera and you are good to go!</string>
+    <string name="title_activity_main_activity2hsh">MainActivity2hsh</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
