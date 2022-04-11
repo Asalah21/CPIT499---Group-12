@@ -57,6 +57,7 @@ public class  objectDetectorClass {
         interpreter=new Interpreter(loadModelFile(assetManager,modelPath),options);
         // load labelmap
         labelList=loadLabelList(assetManager,labelPath);
+        //new interpreter to run the sign language model
         Interpreter.Options options2=new Interpreter.Options();
         options2.setNumThreads(2);
         interpreter2=new Interpreter(loadModelFile(assetManager,classification_model),options2);
@@ -92,8 +93,6 @@ public class  objectDetectorClass {
     public Mat recognizeImage(Mat mat_image){
         // Rotate original image by 90 degree get get portrait frame
 
-        // This change was done in video: Does Your App Keep Crashing? | Watch This Video For Solution.
-        // This will fix crashing problem of the app
 
         Mat rotated_mat_image=new Mat();
 
@@ -143,10 +142,6 @@ public class  objectDetectorClass {
 
         // now predict
         interpreter.runForMultipleInputsOutputs(input,output_map);
-        // Before watching this video please watch my previous 2 video of
-        //      1. Loading tensorflow lite model
-        //      2. Predicting object
-        // In this video we will draw boxes and label it with it's name
 
         Object value=output_map.get(0);
         Object Object_class=output_map.get(1);
@@ -164,12 +159,12 @@ public class  objectDetectorClass {
             if(score_value>0.5){
                 Object box1=Array.get(Array.get(value,0),i);
                 // we are multiplying it with Original height and width of frame
-
+//x1 and y1 is the starting point of the box
                 float y1=(float) Array.get(box1,0)*height;
                 float x1=(float) Array.get(box1,1)*width;
                 float y2=(float) Array.get(box1,2)*height;
                 float x2=(float) Array.get(box1,3)*width;
-
+//putting limits
                 if (y1<0){
                     y1=0;
                 }
@@ -184,30 +179,37 @@ public class  objectDetectorClass {
                 }
                 float w1=x2-x1;
                 float h1=y2-y1;
-
+//drawing a rectangle and cropping the inside of it to compare with our model
                 Rect cropped_roi=new Rect((int)x1,(int)y1,(int)w1,(int)h1);
+                //making a matrix
                 Mat cropped=new Mat(rotated_mat_image,cropped_roi).clone();
                 Bitmap bitmap1=null;
                 bitmap1=Bitmap.createBitmap(cropped.cols(),cropped.rows(),Bitmap.Config.ARGB_8888);
+                //mat to bitmap using ARGB_8888 which Each pixel is stored on 4 bytes.
                 Utils.matToBitmap(cropped,bitmap1);
                 Bitmap scaledBitmap1=Bitmap.createScaledBitmap(bitmap1,Classification_input_size,Classification_input_size,false);
+                //Scaling the bitmap into our input size which is 96
 
                 ByteBuffer byteBuffer1=convertBitmapToByteBuffer1(scaledBitmap1);
+                //converting from bitmap to bytebuffer so we can use it to find out the letter
                 float[][] output_class_values=new float[1][1];
 
                 interpreter2.run(byteBuffer1,output_class_values);
+                //run the interpreter
                 Log.d("objectDetectionClass","output_class_values: "+output_class_values);
+                // for my view
 
                 String sign_val=get_alphabets(output_class_values[0][0]);
+                // getting the letter
+                // string of class name of object  // starting point                         // color of text           // size of text
 
                 Imgproc.putText(rotated_mat_image,""+sign_val,new Point(x1+10,y1+40),2,1.5,new Scalar(255, 255, 255, 255),2);
-
+//writing the letter on the matrix
 
                 // draw rectangle in Original frame //  starting point    // ending point of box  // color of box       thickness
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0, 255, 0, 255),2);
                 // write text on frame
-                                                // string of class name of object  // starting point                         // color of text           // size of text
-                //
+
 
             }
 
@@ -218,7 +220,7 @@ public class  objectDetectorClass {
         // Now for second change go to CameraBridgeViewBase
         return mat_image;
     }
-
+//we compare the output and find the letter
     private String get_alphabets(float sig_v) {
         String val="";
         if (sig_v>=-0.5 & sig_v<0.5){
@@ -275,7 +277,7 @@ public class  objectDetectorClass {
 
         return val;
     }
-
+//used for the hand detection
     private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
         ByteBuffer byteBuffer;
         // some model input should be quant=0  for some quant=1
@@ -315,10 +317,12 @@ public class  objectDetectorClass {
         }
     return byteBuffer;
     }
+    //used for the sign language
     private ByteBuffer convertBitmapToByteBuffer1(Bitmap bitmap) {
         ByteBuffer byteBuffer;
 
         int quant=1;
+        //change the input size to our model size 96
         int size_images=Classification_input_size;
         if(quant==0){
             byteBuffer=ByteBuffer.allocateDirect(1*size_images*size_images*3);
@@ -349,5 +353,3 @@ public class  objectDetectorClass {
         return byteBuffer;
     }
 }
-// Next video is about drawing box and labeling it
-// If you have any problem please inform me

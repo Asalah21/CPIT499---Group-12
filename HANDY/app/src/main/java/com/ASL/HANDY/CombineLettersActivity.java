@@ -138,7 +138,7 @@ public class CombineLettersActivity extends Activity implements CameraBridgeView
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame){
         mRgba=inputFrame.rgba();
         mGray=inputFrame.gray();
-        // Before watching this video please watch previous video of loading tensorflow lite model
+
 
         // now call that function
         Mat out=new Mat();

@@ -60,6 +60,8 @@
             android:layout_marginLeft="40dp"
             android:text="BackSpace"
             android:textAllCaps="false" />
+        <!--Hello Doctors-->
+
 
 
     </LinearLayout>

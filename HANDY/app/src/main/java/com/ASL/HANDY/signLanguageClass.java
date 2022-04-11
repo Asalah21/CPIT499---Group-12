@@ -134,8 +134,6 @@ public class signLanguageClass {
     public Mat recognizeImage(Mat mat_image){
         // Rotate original image by 90 degree get get portrait frame
 
-        // This change was done in video: Does Your App Keep Crashing? | Watch This Video For Solution.
-        // This will fix crashing problem of the app
 
         Mat rotated_mat_image=new Mat();
 
@@ -185,10 +183,8 @@ public class signLanguageClass {
 
         // now predict
         interpreter.runForMultipleInputsOutputs(input,output_map);
-        // Before watching this video please watch my previous 2 video of
-        //      1. Loading tensorflow lite model
-        //      2. Predicting object
-        // In this video we will draw boxes and label it with it's name
+
+        // we will draw boxes and label it with it's name
 
         Object value=output_map.get(0);
         Object Object_class=output_map.get(1);
@@ -394,5 +390,3 @@ public class signLanguageClass {
         return byteBuffer;
     }
 }
-// Next video is about drawing box and labeling it
-// If you have any problem please inform me

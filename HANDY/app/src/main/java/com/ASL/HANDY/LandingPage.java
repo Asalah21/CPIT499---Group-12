@@ -48,9 +48,7 @@ public class LandingPage extends AppCompatActivity {
 
         // select device and run
         // we successfully loaded model
-        // before next tutorial
         // as we are going to predict in Camera Activity
-        // Next tutorial will be about predicting using Interpreter
 
 
         camera_button=findViewById(R.id.camera_button);
